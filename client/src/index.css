@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+@variant light (&:where(.light, .light *));
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+/* Custom Scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.3);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.5);
+}
+
+/* Base styles for premium UI feel */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Soft transitions */
+.transition-theme {
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom premium class utility systems */
+.glass-panel {
+  background: rgba(24, 24, 27, 0.35);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+  background: rgba(24, 24, 27, 0.55);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-input {
+  background: rgba(9, 9, 11, 0.35);
+  border: 1px solid rgba(63, 63, 70, 0.4);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-input:focus {
+  border-color: rgba(16, 185, 129, 0.55);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.12);
+  background: rgba(9, 9, 11, 0.55);
+  outline: none;
+}
+
+@keyframes float-slower {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.45; filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.15)); }
+  50% { opacity: 0.75; filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.35)); }
+}
+
+.animate-float {
+  animation: float-slower 8s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: pulse-glow 5s ease-in-out infinite;
+}
+

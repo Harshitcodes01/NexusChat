@@ -302,7 +302,7 @@ export const DashboardPage = () => {
   const suggestedUsers = discoverUsers.filter((u) => !activeDmRecipientIds.includes(u._id));
 
   return (
-    <div className="min-h-screen bg-[#07070a] transition-theme flex items-center justify-center p-0 md:p-4 text-neutral-100 relative overflow-hidden">
+    <div className="min-h-screen bg-[#fafafa] dark:bg-[#07070a] light:bg-[#fafafa] transition-theme flex items-center justify-center p-0 md:p-4 text-zinc-850 dark:text-neutral-100 light:text-zinc-850 relative overflow-hidden">
       
       {/* Mesh Grid Pattern Overlay */}
       <div 
