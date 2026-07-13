@@ -1,0 +1,22 @@
+# Dependency modules directories
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Compiled distribution bundles
+dist/
+client/dist/
+server/dist/
+
+# Local Environment Variables
+.env
+server/.env
+client/.env
+
+# Local upload attachments fallbacks
+uploads/
+server/uploads/
+
+# OS-specific temporary logs
+.DS_Store
+Thumbs.db
