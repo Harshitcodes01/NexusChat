@@ -15,8 +15,6 @@ import {
   Plus,
   LogOut,
   Settings,
-  Sun,
-  Moon,
   Send,
   Paperclip,
   Smile,
@@ -43,7 +41,7 @@ import toast from 'react-hot-toast';
 
 export const DashboardPage = () => {
   const { user, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   
   const {
     chats,
@@ -302,13 +300,13 @@ export const DashboardPage = () => {
   const suggestedUsers = discoverUsers.filter((u) => !activeDmRecipientIds.includes(u._id));
 
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#07070a] light:bg-[#fafafa] transition-theme flex items-center justify-center p-0 md:p-4 text-zinc-850 dark:text-neutral-100 light:text-zinc-850 relative overflow-hidden">
+    <div className="h-screen md:h-auto md:min-h-screen bg-[#f4f4f5] dark:bg-[#07070a] light:bg-[#f4f4f5] bg-gradient-to-br from-zinc-100 via-neutral-150 to-zinc-200 dark:from-transparent dark:to-transparent transition-theme flex items-center justify-center p-0 md:p-4 text-zinc-800 dark:text-neutral-100 light:text-zinc-800 relative overflow-hidden">
       
       {/* Mesh Grid Pattern Overlay */}
       <div 
-        className="absolute inset-0 opacity-20 pointer-events-none"
+        className="absolute inset-0 opacity-[0.15] dark:opacity-20 pointer-events-none"
         style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)`,
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0)`,
           backgroundSize: '24px 24px',
         }}
       />
@@ -319,7 +317,7 @@ export const DashboardPage = () => {
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-emerald-600/5 rounded-full blur-[120px]" />
       </div>
 
-      <div className="w-full h-full md:max-w-6xl md:h-[90vh] glass-card md:rounded-[36px] shadow-2xl flex overflow-hidden relative z-10">
+      <div className="w-full h-full md:max-w-6xl md:h-[90vh] glass-card light:bg-white/60 light:border-white/50 light:shadow-xl md:rounded-[36px] shadow-2xl flex overflow-hidden relative z-10">
         
         {/* ================= COLUMN 1: LEFT RAIL (DISCORD SERVER RAIL) ================= */}
         {/* Hides on mobile when a chat is open to maximize messaging screen estate */}
@@ -372,15 +370,6 @@ export const DashboardPage = () => {
 
           {/* Action settings panel */}
           <div className="flex flex-col items-center gap-4 w-full">
-            {/* Theme switcher */}
-            <button
-              onClick={toggleTheme}
-              className="w-10 h-10 rounded-xl hover:bg-zinc-900/60 dark:hover:bg-zinc-900/60 light:hover:bg-zinc-200/60 flex items-center justify-center text-neutral-400 hover:text-white dark:hover:text-white light:hover:text-zinc-900 transition-all duration-200 cursor-pointer"
-              title="Toggle Theme"
-            >
-              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-
             {/* Settings trigger */}
             <button
               onClick={() => setIsProfileOpen(true)}
@@ -711,9 +700,11 @@ export const DashboardPage = () => {
 
               {/* Messages timeline (WhatsApp simplicity style) */}
               <div 
-                className="flex-1 overflow-y-auto p-6 space-y-4 bg-zinc-950/40 relative"
+                className="flex-1 overflow-y-auto p-6 space-y-4 bg-zinc-950/40 light:bg-zinc-100/10 relative"
                 style={{
-                  backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.015) 1px, transparent 0)`,
+                  backgroundImage: theme === 'dark'
+                    ? `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.015) 1px, transparent 0)`
+                    : `radial-gradient(circle at 1px 1px, rgba(0,0,0,0.02) 1px, transparent 0)`,
                   backgroundSize: '20px 20px',
                 }}
               >
@@ -755,7 +746,7 @@ export const DashboardPage = () => {
                             className={`rounded-2xl px-4 py-3 relative border shadow-md transition-all duration-200 hover:shadow-lg ${
                               isSelf
                                 ? 'bg-gradient-to-br from-emerald-600 to-emerald-700 text-white border-emerald-500/40 rounded-br-none'
-                                : 'bg-zinc-900/60 backdrop-blur-md text-neutral-100 border-zinc-800/80 rounded-bl-none'
+                                : 'bg-zinc-900/60 backdrop-blur-md text-neutral-100 border-zinc-800/80 light:bg-white/95 light:text-zinc-850 light:border-zinc-200/60 rounded-bl-none'
                             }`}
                           >
                             {/* Reply block header */}
