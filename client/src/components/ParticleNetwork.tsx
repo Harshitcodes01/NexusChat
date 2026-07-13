@@ -90,7 +90,7 @@ export const ParticleNetwork = () => {
         if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(16, 185, 129, ${this.baseAlpha})`;
+        ctx.fillStyle = `rgba(200, 169, 106, ${this.baseAlpha})`;
         ctx.fill();
       }
     }
@@ -120,7 +120,7 @@ export const ParticleNetwork = () => {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(16, 185, 129, ${alpha})`;
+            ctx.strokeStyle = `rgba(200, 169, 106, ${alpha})`;
             ctx.lineWidth = 0.8;
             ctx.stroke();
           }
