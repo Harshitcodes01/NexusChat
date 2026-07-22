@@ -5,53 +5,76 @@
 @custom-variant light (&:where(.light, .light *));
 
 :root {
-  /* Background Layers */
-  --bg-primary: #0F0F10;
-  --bg-secondary: #171717;
-  --bg-tertiary: #202020;
-  /* Surface */
-  --surface: #262626;
-  --surface-elevated: #2F2F2F;
-  --surface-hover: #333333;
-  /* Text & Contrast */
-  --text-primary: #FFFFFF;
-  --text-secondary: #E5E5E5;
-  --text-muted: #B5B5B5;
-  --text-faint: #777777;
-  /* Accent Colors (Champagne Gold & Soft Beige) */
+  /* Accent Colors (Champagne Gold & Soft Beige) - static across themes */
   --accent: #C8A96A;
   --accent-bright: #D4AF37;
   --accent-dim: #A68B4B;
   --beige: #E7DCC8;
+  
   /* Borders */
-  --border: rgba(255,255,255,.08);
-  --border-strong: rgba(255,255,255,.14);
-  --border-accent: rgba(200,169,106,.3);
+  --border-accent: rgba(200, 169, 106, 0.25);
+  
   /* Feedback Colors */
   --success: #4ADE80;
   --error: #F87171;
   --warning: #FBBF24;
   --info: #93C5FD;
+  
   /* Radii & Corners */
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 22px;
   --radius-xl: 28px;
   --radius-full: 9999px;
-  /* Premium Box Shadows & Glowing effects */
-  --shadow-sm: 0 2px 8px rgba(0,0,0,.25);
-  --shadow-md: 0 4px 20px rgba(0,0,0,.35);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,.5);
-  --shadow-glow: 0 0 30px rgba(200,169,106,.12);
+  
   /* Transitions */
   --ease-smooth: cubic-bezier(.4, 0, .2, 1);
   --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --duration-slow: 400ms;
+  
   /* Typography */
   --font-heading: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Default Dark theme variables */
+  --bg-primary: #0F0F10;
+  --bg-secondary: #171717;
+  --bg-tertiary: #202020;
+  --surface: #262626;
+  --surface-elevated: #2F2F2F;
+  --surface-hover: #333333;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E5E5E5;
+  --text-muted: #B5B5B5;
+  --text-faint: #777777;
+  --border: rgba(255,255,255,.08);
+  --border-strong: rgba(255,255,255,.14);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.25);
+  --shadow-md: 0 4px 20px rgba(0,0,0,.35);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,.5);
+  --shadow-glow: 0 0 30px rgba(200,169,106,.12);
+}
+
+.light {
+  /* Warm Premium Light theme variables */
+  --bg-primary: #FAF8F5;
+  --bg-secondary: #F3ECE2;
+  --bg-tertiary: #EAE3D5;
+  --surface: #E3DAC9;
+  --surface-elevated: #DFD5C2;
+  --surface-hover: #D7CCA3;
+  --text-primary: #2C261A;
+  --text-secondary: #4A3E2B;
+  --text-muted: #7E6C54;
+  --text-faint: #A4937D;
+  --border: rgba(44, 38, 26, 0.08);
+  --border-strong: rgba(44, 38, 26, 0.14);
+  --shadow-sm: 0 2px 8px rgba(44, 38, 26, 0.08);
+  --shadow-md: 0 4px 20px rgba(44, 38, 26, 0.1);
+  --shadow-lg: 0 8px 40px rgba(44, 38, 26, 0.15);
+  --shadow-glow: 0 0 30px rgba(200,169,106,0.06);
 }
 
 @theme {
@@ -419,4 +442,62 @@ h1, h2, h3, h4, h5, h6 {
 .chat-composer__btn:hover {
   transform: scale(1.1);
   color: var(--accent-bright);
+}
+
+/* Premium Theme Accent Utilities */
+.btn-accent {
+  background-color: var(--accent) !important;
+  color: #0F0F10 !important;
+  font-weight: 600 !important;
+  transition: all var(--duration-fast) var(--ease-smooth) !important;
+  box-shadow: 0 4px 12px rgba(200, 169, 106, 0.15);
+}
+.btn-accent:hover:not(:disabled) {
+  background-color: var(--accent-bright) !important;
+  box-shadow: 0 0 20px rgba(200, 169, 106, 0.35) !important;
+  transform: translateY(-1px);
+}
+.btn-accent:active:not(:disabled) {
+  transform: translateY(0px);
+}
+.btn-accent:disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
+.btn-accent-secondary {
+  background-color: rgba(200, 169, 106, 0.08) !important;
+  color: var(--accent) !important;
+  border: 1px solid rgba(200, 169, 106, 0.25) !important;
+  font-weight: 600 !important;
+  transition: all var(--duration-fast) var(--ease-smooth) !important;
+}
+.btn-accent-secondary:hover:not(:disabled) {
+  background-color: rgba(200, 169, 106, 0.16) !important;
+  color: var(--accent-bright) !important;
+  border-color: rgba(200, 169, 106, 0.4) !important;
+}
+.btn-accent-secondary:disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+}
+
+.text-accent {
+  color: var(--accent) !important;
+}
+.text-accent-bright {
+  color: var(--accent-bright) !important;
+}
+.border-accent-custom {
+  border-color: rgba(200, 169, 106, 0.2) !important;
+}
+.border-accent-custom-strong {
+  border-color: rgba(200, 169, 106, 0.45) !important;
+}
+.bg-accent-dim-custom {
+  background-color: rgba(200, 169, 106, 0.08) !important;
+}
+.bg-accent-dim-custom-hover:hover {
+  background-color: rgba(200, 169, 106, 0.14) !important;
 }

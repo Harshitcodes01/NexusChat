@@ -9,6 +9,7 @@ import ProfileModal from '../components/ProfileModal';
 import CreateGroupModal from '../components/CreateGroupModal';
 import GroupInfoModal from '../components/GroupInfoModal';
 import EmojiPicker from 'emoji-picker-react';
+import { motion } from 'framer-motion';
 import {
   MessageCircle,
   Search,
@@ -36,12 +37,14 @@ import {
   Download,
   Users,
   UserCheck,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export const DashboardPage = () => {
   const { user, logout } = useAuth();
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   
   const {
     chats,
@@ -324,24 +327,32 @@ export const DashboardPage = () => {
         <div className={`w-16 md:w-20 bg-zinc-950 dark:bg-zinc-950 light:bg-zinc-100 border-r border-zinc-850/80 dark:border-zinc-850/80 light:border-zinc-200 flex flex-col items-center py-4 justify-between flex-shrink-0 ${activeChat ? 'hidden md:flex' : 'flex'}`}>
           {/* Workspace navigation buttons */}
           <div className="flex flex-col items-center gap-4 w-full">
-            {/* Discord Logo / Brand Item */}
-            <div className="relative group flex items-center justify-center w-12 h-12 rounded-3xl hover:rounded-2xl bg-zinc-900/60 dark:bg-zinc-900/60 light:bg-white text-emerald-400 border border-zinc-850 dark:border-zinc-850 light:border-zinc-200 transition-all duration-300 mb-2 cursor-pointer shadow-md">
+            {/* Logo / Brand Item with Hover Spin Effect */}
+            <motion.div
+              whileHover={{ rotate: 360, scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+              className="relative group flex items-center justify-center w-12 h-12 rounded-3xl hover:rounded-2xl bg-zinc-900/60 dark:bg-zinc-900/60 light:bg-white text-accent border border-zinc-850 dark:border-zinc-850 light:border-zinc-200 mb-2 cursor-pointer shadow-md"
+            >
               <MessageCircle className="w-6 h-6 animate-pulse" />
-            </div>
+            </motion.div>
 
             <hr className="w-8 border-zinc-850 dark:border-zinc-850 light:border-zinc-200 mb-2" />
 
             {/* Direct Messages Tab */}
             <div className="relative group w-full flex justify-center">
               {sidebarTab === 'direct' && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-emerald-500 rounded-r-full" />
+                <motion.div
+                  layoutId="sidebarActivePill"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-accent rounded-r-full"
+                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                />
               )}
               <button
                 onClick={() => setSidebarTab('direct')}
-                className={`w-12 h-12 rounded-3xl hover:rounded-2xl flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                className={`w-12 h-12 rounded-3xl hover:rounded-2xl flex items-center justify-center transition-all duration-300 cursor-pointer z-10 ${
                   sidebarTab === 'direct'
-                    ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'
-                    : 'bg-zinc-900/40 dark:bg-zinc-900/40 light:bg-zinc-200/50 hover:bg-emerald-600 hover:text-white text-neutral-400'
+                    ? 'bg-accent text-zinc-950 shadow-lg shadow-accent/15'
+                    : 'bg-zinc-900/40 dark:bg-zinc-900/40 light:bg-zinc-200/50 hover:bg-accent hover:text-zinc-950 text-neutral-400'
                 }`}
                 title="Direct Messages"
               >
@@ -352,14 +363,18 @@ export const DashboardPage = () => {
             {/* Group Chats Tab */}
             <div className="relative group w-full flex justify-center">
               {sidebarTab === 'group' && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-emerald-500 rounded-r-full" />
+                <motion.div
+                  layoutId="sidebarActivePill"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-accent rounded-r-full"
+                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                />
               )}
               <button
                 onClick={() => setSidebarTab('group')}
-                className={`w-12 h-12 rounded-3xl hover:rounded-2xl flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                className={`w-12 h-12 rounded-3xl hover:rounded-2xl flex items-center justify-center transition-all duration-300 cursor-pointer z-10 ${
                   sidebarTab === 'group'
-                    ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'
-                    : 'bg-zinc-900/40 dark:bg-zinc-900/40 light:bg-zinc-200/50 hover:bg-emerald-600 hover:text-white text-neutral-400'
+                    ? 'bg-accent text-zinc-950 shadow-lg shadow-accent/15'
+                    : 'bg-zinc-900/40 dark:bg-zinc-900/40 light:bg-zinc-200/50 hover:bg-accent hover:text-zinc-950 text-neutral-400'
                 }`}
                 title="Group Chats"
               >
@@ -370,6 +385,15 @@ export const DashboardPage = () => {
 
           {/* Action settings panel */}
           <div className="flex flex-col items-center gap-4 w-full">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="w-10 h-10 rounded-xl hover:bg-zinc-900/60 dark:hover:bg-zinc-900/60 light:hover:bg-zinc-200/60 flex items-center justify-center text-neutral-400 hover:text-white dark:hover:text-white light:hover:text-zinc-900 transition-all duration-200 cursor-pointer"
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5 text-accent" /> : <Moon className="w-5 h-5 text-accent" />}
+            </button>
+
             {/* Settings trigger */}
             <button
               onClick={() => setIsProfileOpen(true)}
@@ -398,7 +422,7 @@ export const DashboardPage = () => {
               <img
                 src={user?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${user?.name}`}
                 alt="Profile"
-                className="w-10 h-10 rounded-full object-cover border border-zinc-850 dark:border-zinc-850 light:border-zinc-200 group-hover:border-emerald-500 transition-all duration-200"
+                className="w-10 h-10 rounded-full object-cover border border-zinc-850 dark:border-zinc-850 light:border-zinc-200 group-hover:border-accent transition-all duration-200"
               />
               <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border border-zinc-900 rounded-full" />
             </div>
@@ -415,7 +439,7 @@ export const DashboardPage = () => {
             {sidebarTab === 'group' && (
               <button
                 onClick={() => setIsCreateGroupOpen(true)}
-                className="p-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors cursor-pointer"
+                className="p-1.5 btn-accent rounded-lg transition-colors cursor-pointer"
                 title="Create Group"
               >
                 <Plus className="w-4 h-4" />
@@ -432,7 +456,7 @@ export const DashboardPage = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search chats or find users..."
-                className="w-full bg-zinc-950 dark:bg-zinc-950 light:bg-zinc-100 border border-zinc-850/80 dark:border-zinc-850/80 light:border-zinc-200 rounded-xl pl-10 pr-4 py-2.5 text-sm text-neutral-100 dark:text-neutral-100 light:text-neutral-800 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full bg-zinc-950 dark:bg-zinc-950 light:bg-zinc-100 border border-zinc-850/80 dark:border-zinc-850/80 light:border-zinc-200 rounded-xl pl-10 pr-4 py-2.5 text-sm text-neutral-100 dark:text-neutral-100 light:text-neutral-800 focus:outline-none focus:border-accent transition-colors"
               />
             </div>
           </div>
@@ -485,7 +509,7 @@ export const DashboardPage = () => {
                     <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest px-3 mb-2">Global Users</h4>
                     {isSearchingGlobal ? (
                       <div className="flex justify-center p-4">
-                        <Loader2 className="w-5 h-5 text-emerald-500 animate-spin" />
+                        <Loader2 className="w-5 h-5 text-accent animate-spin" />
                       </div>
                     ) : globalSearchResults.length === 0 ? (
                       <p className="text-xs text-neutral-500 px-3">No other verified users found</p>
@@ -526,8 +550,8 @@ export const DashboardPage = () => {
                   const otherUser = c.participants.find((p) => p._id !== user?.id);
                   const chatName = c.isGroup ? c.groupName : otherUser?.name;
                   const image = c.isGroup
-                    ? c.groupImage || `https://api.dicebear.com/7.x/initials/svg?seed=${c.groupName}`
-                    : otherUser?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${chatName}`;
+                     ? c.groupImage || `https://api.dicebear.com/7.x/initials/svg?seed=${c.groupName}`
+                     : otherUser?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${chatName}`;
                   
                   const isOnline = !c.isGroup && otherUser?.status === 'online';
                   
@@ -573,14 +597,14 @@ export const DashboardPage = () => {
 
                 {/* Suggested global directory contacts (only in DM sidebar view when search query is empty) */}
                 {sidebarTab === 'direct' && (
-                  <div className="p-3 border-t border-zinc-850/40 dark:border-zinc-850/40 light:border-zinc-100">
+                  <div className="p-3 border-t border-zinc-850/40 dark:border-zinc-850/40 light:divide-zinc-100">
                     <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest px-3 mb-3 mt-2 flex items-center gap-1.5 select-none">
-                      <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
+                      <UserCheck className="w-3.5 h-3.5 text-accent" />
                       Discover People
                     </h4>
                     {isLoadingDiscover ? (
                       <div className="p-4 flex justify-center">
-                        <Loader2 className="w-5 h-5 text-emerald-500 animate-spin" />
+                        <Loader2 className="w-5 h-5 text-accent animate-spin" />
                       </div>
                     ) : suggestedUsers.length === 0 ? (
                       <p className="text-xs text-neutral-500 px-3 italic py-2">All active users are in your DMs list</p>
@@ -661,7 +685,7 @@ export const DashboardPage = () => {
                       <button
                         onClick={() => initiateCall(activeRecipient._id, activeRecipient.name, activeRecipient.avatar || '', 'audio')}
                         disabled={callState !== 'idle'}
-                        className="p-2 hover:bg-zinc-800/60 dark:hover:bg-zinc-800/60 light:hover:bg-zinc-100 rounded-xl text-neutral-400 hover:text-emerald-400 disabled:opacity-40 transition-colors cursor-pointer"
+                        className="p-2 hover:bg-zinc-800/60 dark:hover:bg-zinc-800/60 light:hover:bg-zinc-100 rounded-xl text-neutral-400 hover:text-accent disabled:opacity-40 transition-colors cursor-pointer"
                         title="Voice Call"
                       >
                         <Phone className="w-5 h-5" />
@@ -669,7 +693,7 @@ export const DashboardPage = () => {
                       <button
                         onClick={() => initiateCall(activeRecipient._id, activeRecipient.name, activeRecipient.avatar || '', 'video')}
                         disabled={callState !== 'idle'}
-                        className="p-2 hover:bg-zinc-800/60 dark:hover:bg-zinc-800/60 light:hover:bg-zinc-100 rounded-xl text-neutral-400 hover:text-emerald-400 disabled:opacity-40 transition-colors cursor-pointer"
+                        className="p-2 hover:bg-zinc-800/60 dark:hover:bg-zinc-800/60 light:hover:bg-zinc-100 rounded-xl text-neutral-400 hover:text-accent disabled:opacity-40 transition-colors cursor-pointer"
                         title="Video Call"
                       >
                         <Video className="w-5 h-5" />
@@ -718,15 +742,43 @@ export const DashboardPage = () => {
                     Send a message to start chatting
                   </div>
                 ) : (
-                  messages.map((msg) => {
-                    const isSelf = msg.sender._id === user?.id;
-                    const nameLabel = !isSelf && activeChat.isGroup ? msg.sender.name : '';
+                  (() => {
+                    let lastDateString = '';
+                    return messages.map((msg) => {
+                      const isSelf = msg.sender._id === user?.id;
+                      const nameLabel = !isSelf && activeChat.isGroup ? msg.sender.name : '';
 
-                    return (
-                      <div
-                        key={msg._id}
-                        className={`flex flex-col ${isSelf ? 'items-end' : 'items-start'} group/msg relative`}
-                      >
+                      const msgDate = new Date(msg.createdAt);
+                      const dateString = msgDate.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                      const showSeparator = dateString !== lastDateString;
+                      lastDateString = dateString;
+
+                      let separatorLabel = dateString;
+                      const today = new Date().toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                      const yesterdayDate = new Date();
+                      yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+                      const yesterday = yesterdayDate.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                      
+                      if (dateString === today) {
+                        separatorLabel = 'Today';
+                      } else if (dateString === yesterday) {
+                        separatorLabel = 'Yesterday';
+                      }
+
+                      return (
+                        <div key={msg._id} className="w-full space-y-4">
+                          {showSeparator && (
+                            <div className="flex items-center justify-center my-6 select-none pointer-events-none">
+                              <div className="h-[1px] bg-zinc-800/40 dark:bg-zinc-800/40 light:bg-zinc-200/80 flex-1" />
+                              <span className="px-4 py-1.5 rounded-full text-[10px] font-bold text-neutral-400 dark:text-neutral-400 light:text-zinc-600 bg-zinc-900/60 dark:bg-zinc-900/60 light:bg-zinc-200 border border-zinc-800/40 dark:border-zinc-800/40 light:border-zinc-200/80 backdrop-blur-md uppercase tracking-wider mx-4 shadow-sm">
+                                {separatorLabel}
+                              </span>
+                              <div className="h-[1px] bg-zinc-800/40 dark:bg-zinc-800/40 light:bg-zinc-200/80 flex-1" />
+                            </div>
+                          )}
+                          <div
+                            className={`flex flex-col ${isSelf ? 'items-end' : 'items-start'} group/msg relative`}
+                          >
                         {nameLabel && (
                           <span className="text-[10px] text-neutral-500 ml-3 mb-0.5">{nameLabel}</span>
                         )}
@@ -741,17 +793,17 @@ export const DashboardPage = () => {
                             />
                           )}
 
-                          {/* Message bubble content */}
+                           {/* Message bubble content */}
                           <div
                             className={`rounded-2xl px-4 py-3 relative border shadow-md transition-all duration-200 hover:shadow-lg ${
                               isSelf
-                                ? 'bg-gradient-to-br from-emerald-600 to-emerald-700 text-white border-emerald-500/40 rounded-br-none'
+                                ? 'bg-gradient-to-br from-accent-dim to-accent text-zinc-950 border-accent-dim/30 rounded-br-none font-medium'
                                 : 'bg-zinc-900/60 backdrop-blur-md text-neutral-100 border-zinc-800/80 light:bg-white/95 light:text-zinc-850 light:border-zinc-200/60 rounded-bl-none'
                             }`}
                           >
                             {/* Reply block header */}
                             {msg.replyTo && (
-                              <div className={`text-xs border-l-2 p-1.5 rounded mb-2 flex flex-col ${isSelf ? 'border-white/50 bg-white/10' : 'border-teal-400 bg-zinc-900/40 dark:bg-zinc-900/40 light:bg-zinc-200/50'}`}>
+                              <div className={`text-xs border-l-2 p-1.5 rounded mb-2 flex flex-col ${isSelf ? 'border-zinc-950/40 bg-zinc-950/5' : 'border-accent bg-zinc-900/40 dark:bg-zinc-900/40 light:bg-zinc-200/50'}`}>
                                 <span className="font-semibold text-[10px]">
                                   {msg.replyTo.sender._id === user?.id ? 'You' : msg.replyTo.sender.name}
                                 </span>
@@ -798,7 +850,7 @@ export const DashboardPage = () => {
                                     href={att.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center gap-2 p-2 bg-zinc-950/40 hover:bg-zinc-950/60 border border-zinc-800 rounded-xl mb-2 text-teal-400 hover:text-teal-300 transition-colors"
+                                    className="flex items-center gap-2 p-2 bg-zinc-950/40 hover:bg-zinc-950/60 border border-zinc-800 rounded-xl mb-2 text-accent hover:text-accent-bright transition-colors"
                                   >
                                     <FileText className="w-5 h-5 flex-shrink-0" />
                                     <span className="text-[10px] font-medium truncate flex-1">{att.name || 'document'}</span>
@@ -828,13 +880,13 @@ export const DashboardPage = () => {
                               {isSelf && !msg.isDeleted && (
                                 activeChat.isGroup ? (
                                   msg.readBy.filter(id => id !== user?.id).length > 0 ? (
-                                    <CheckCheck className="w-3 h-3 text-teal-400" />
+                                    <CheckCheck className="w-3 h-3 text-accent" />
                                   ) : (
                                     <Check className="w-3 h-3 text-neutral-400" />
                                   )
                                 ) : (
                                   activeRecipient && msg.readBy.includes(activeRecipient._id) ? (
-                                    <CheckCheck className="w-3 h-3 text-teal-400" />
+                                    <CheckCheck className="w-3 h-3 text-accent" />
                                   ) : (
                                     <Check className="w-3 h-3 text-neutral-400" />
                                   )
@@ -875,9 +927,11 @@ export const DashboardPage = () => {
                           )}
                         </div>
                       </div>
-                    );
-                  })
-                )}
+                    </div>
+                  );
+                });
+              })()
+            )}
                 <div ref={messagesEndRef} />
               </div>
 
@@ -897,8 +951,8 @@ export const DashboardPage = () => {
 
               {/* Reply Preview indicator */}
               {replyToMessage && (
-                <div className="px-6 py-2 bg-emerald-600/10 border-t border-emerald-500/20 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2 text-teal-400">
+                <div className="px-6 py-2 bg-accent/10 border-t border-accent/20 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2 text-accent">
                     <CornerUpLeft className="w-3.5 h-3.5" />
                     <span className="truncate max-w-lg">
                       Replying to <strong>{replyToMessage.sender.name}</strong>: {replyToMessage.text || 'attachment'}
@@ -906,7 +960,7 @@ export const DashboardPage = () => {
                   </div>
                   <button
                     onClick={() => setReplyToMessage(null)}
-                    className="p-1 text-neutral-400 hover:text-white hover:bg-emerald-600/20 rounded transition-colors"
+                    className="p-1 text-neutral-400 hover:text-white hover:bg-accent/20 rounded transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -915,8 +969,8 @@ export const DashboardPage = () => {
 
               {/* Edit Preview banner */}
               {editingMessage && (
-                <div className="px-6 py-2 bg-emerald-600/10 border-t border-emerald-500/20 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2 text-teal-400">
+                <div className="px-6 py-2 bg-accent/10 border-t border-accent/20 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2 text-accent">
                     <Edit className="w-3.5 h-3.5" />
                     <span>Editing message...</span>
                   </div>
@@ -925,7 +979,7 @@ export const DashboardPage = () => {
                       setEditingMessage(null);
                       setNewMessageText('');
                     }}
-                    className="p-1 text-neutral-400 hover:text-white hover:bg-emerald-600/20 rounded transition-colors"
+                    className="p-1 text-neutral-400 hover:text-white hover:bg-accent/20 rounded transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -934,8 +988,8 @@ export const DashboardPage = () => {
 
               {/* Attachment Preview thumbnail */}
               {attachment && (
-                <div className="px-6 py-2 bg-emerald-600/10 border-t border-emerald-500/20 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2 text-teal-400 min-w-0">
+                <div className="px-6 py-2 bg-accent/10 border-t border-accent/20 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2 text-accent min-w-0">
                     {attachment.type === 'image' && <ImageIcon className="w-4 h-4 flex-shrink-0" />}
                     {attachment.type === 'video' && <Video className="w-4 h-4 flex-shrink-0" />}
                     {attachment.type === 'audio' && <Music className="w-4 h-4 flex-shrink-0" />}
@@ -944,7 +998,7 @@ export const DashboardPage = () => {
                   </div>
                   <button
                     onClick={() => setAttachment(null)}
-                    className="p-1 text-neutral-400 hover:text-white hover:bg-emerald-600/20 rounded transition-colors"
+                    className="p-1 text-neutral-400 hover:text-white hover:bg-accent/20 rounded transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -984,7 +1038,7 @@ export const DashboardPage = () => {
                       className="p-2.5 hover:bg-zinc-800/60 dark:hover:bg-zinc-800/60 light:hover:bg-zinc-150 rounded-xl text-neutral-400 hover:text-white dark:hover:text-white light:hover:text-zinc-900 transition-colors cursor-pointer"
                     >
                       {isUploadingAttachment ? (
-                        <Loader2 className="w-5 h-5 animate-spin text-emerald-500" />
+                        <Loader2 className="w-5 h-5 animate-spin text-accent" />
                       ) : (
                         <Paperclip className="w-5 h-5" />
                       )}
@@ -1002,15 +1056,15 @@ export const DashboardPage = () => {
                     value={newMessageText}
                     onChange={handleInputChange}
                     placeholder={editingMessage ? 'Edit your message...' : 'Write a message...'}
-                    className="flex-1 bg-zinc-950 dark:bg-zinc-950 light:bg-zinc-100 border border-zinc-850 dark:border-zinc-850 light:border-zinc-200 rounded-xl px-4 py-2.5 text-sm text-neutral-100 dark:text-neutral-100 light:text-neutral-800 focus:outline-none focus:border-emerald-500 transition-colors"
+                    className="flex-1 bg-zinc-950 dark:bg-zinc-950 light:bg-zinc-100 border border-zinc-850 dark:border-zinc-850 light:border-zinc-200 rounded-xl px-4 py-2.5 text-sm text-neutral-100 dark:text-neutral-100 light:text-neutral-800 focus:outline-none focus:border-accent transition-colors"
                   />
 
                   <button
                     type="submit"
                     disabled={!newMessageText.trim() && !attachment && !isUploadingAttachment}
-                    className="p-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-55 disabled:cursor-not-allowed text-white rounded-xl shadow-lg shadow-emerald-600/10 transition-all cursor-pointer"
+                    className="p-2.5 btn-accent text-white rounded-xl shadow-lg shadow-accent/15 transition-all cursor-pointer"
                   >
-                    <Send className="w-5 h-5" />
+                    <Send className="w-5 h-5 text-zinc-950" />
                   </button>
                 </form>
               </div>
@@ -1022,12 +1076,12 @@ export const DashboardPage = () => {
                 
                 {/* Welcome Card & Profile Avatar display */}
                 <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-3xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-xl relative overflow-hidden group">
-                  <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+                  <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
                   
                   {/* Large Profile Picture with Hover Cam overlay */}
                   <div 
                     onClick={() => setIsProfileOpen(true)}
-                    className="relative w-20 h-20 rounded-full cursor-pointer overflow-hidden border-2 border-zinc-800 hover:border-emerald-500 transition-all shadow-md group-hover:scale-105"
+                    className="relative w-20 h-20 rounded-full cursor-pointer overflow-hidden border-2 border-zinc-800 hover:border-accent transition-all shadow-md group-hover:scale-105"
                     title="Upload Profile Picture"
                   >
                     <img
@@ -1036,7 +1090,7 @@ export const DashboardPage = () => {
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <Camera className="w-5 h-5 text-emerald-400" />
+                      <Camera className="w-5 h-5 text-accent" />
                     </div>
                   </div>
 
@@ -1047,14 +1101,14 @@ export const DashboardPage = () => {
                     <p className="text-xs text-neutral-400 font-medium">
                       {user?.email || user?.phoneNumber || 'Verified Account'}
                     </p>
-                    <p className="text-xs text-emerald-400 italic font-medium truncate max-w-xs mt-1">
+                    <p className="text-xs text-accent italic font-medium truncate max-w-xs mt-1">
                       "{user?.bio || 'Tap avatar to edit your bio status...'}"
                     </p>
                   </div>
 
                   <button
                     onClick={() => setIsProfileOpen(true)}
-                    className="px-4 py-2 bg-emerald-600/10 hover:bg-emerald-600/25 border border-emerald-500/20 text-emerald-400 text-xs font-bold rounded-xl transition-all cursor-pointer"
+                    className="px-4 py-2 bg-accent/10 hover:bg-accent/25 border border-accent/20 text-accent text-xs font-bold rounded-xl transition-all cursor-pointer"
                   >
                     Upload Avatar
                   </button>
@@ -1067,7 +1121,7 @@ export const DashboardPage = () => {
                     <p className="text-[10px] text-neutral-500 font-bold uppercase tracking-wider mt-1">Active Workspaces</p>
                   </div>
                   <div className="bg-zinc-900/25 border border-zinc-850/60 rounded-2xl p-4 text-center">
-                    <span className="text-2xl font-black text-emerald-400">{discoverUsers.length}</span>
+                    <span className="text-2xl font-black text-accent">{discoverUsers.length}</span>
                     <p className="text-[10px] text-neutral-500 font-bold uppercase tracking-wider mt-1">Available Peers</p>
                   </div>
                 </div>
@@ -1084,7 +1138,7 @@ export const DashboardPage = () => {
                       }}
                       className="flex items-center gap-4 p-4 bg-zinc-900/20 hover:bg-zinc-900/40 border border-zinc-850/50 rounded-2xl cursor-pointer transition-all hover:-translate-y-0.5"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                      <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
                         <Search className="w-5 h-5" />
                       </div>
                       <div className="text-left">
@@ -1097,7 +1151,7 @@ export const DashboardPage = () => {
                       onClick={() => setIsCreateGroupOpen(true)}
                       className="flex items-center gap-4 p-4 bg-zinc-900/20 hover:bg-zinc-900/40 border border-zinc-850/50 rounded-2xl cursor-pointer transition-all hover:-translate-y-0.5"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                      <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
                         <Users className="w-5 h-5" />
                       </div>
                       <div className="text-left">
