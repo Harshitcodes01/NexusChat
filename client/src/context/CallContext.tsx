@@ -323,17 +323,17 @@ export const CallProvider = ({ children }: { children: ReactNode }) => {
       {callState !== 'idle' && (
         <div className={`fixed z-50 transition-all duration-300 ${
           isMinimized 
-            ? 'bottom-4 right-4 w-72 h-44 rounded-2xl border border-zinc-800 bg-zinc-950/90 shadow-2xl p-2 flex flex-col justify-between overflow-hidden backdrop-blur-md'
+            ? 'bottom-4 right-4 w-72 h-44 rounded-2xl glass-panel shadow-2xl p-2 flex flex-col justify-between overflow-hidden'
             : 'inset-0 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-md'
         }`}>
           
           {/* Incoming call notify card */}
           {callState === 'receiving' && callerInfo && (
-            <div className="w-full max-w-sm bg-zinc-900/90 border border-zinc-800 rounded-3xl p-6 shadow-2xl text-center space-y-5 animate-pulse">
+            <div className="w-full max-w-sm glass-panel rounded-3xl p-6 shadow-2xl text-center space-y-5 animate-pulse">
               <img
                 src={callerInfo.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${callerInfo.name}`}
                 alt=""
-                className="w-20 h-20 rounded-full mx-auto object-cover border-2 border-emerald-500 shadow-lg shadow-emerald-500/10"
+                className="w-20 h-20 rounded-full mx-auto object-cover border-2 border-accent shadow-lg shadow-accent/15"
               />
               <div>
                 <h3 className="text-lg font-bold text-white truncate">{callerInfo.name}</h3>
@@ -350,9 +350,9 @@ export const CallProvider = ({ children }: { children: ReactNode }) => {
                 </button>
                 <button
                   onClick={acceptIncomingCall}
-                  className="w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-500 flex items-center justify-center text-white cursor-pointer shadow-lg shadow-emerald-600/20"
+                  className="w-12 h-12 rounded-full bg-accent text-zinc-950 hover:bg-accent-bright flex items-center justify-center cursor-pointer shadow-lg shadow-accent/20"
                 >
-                  <Phone className="w-5 h-5" />
+                  <Phone className="w-5 h-5 text-zinc-950" />
                 </button>
               </div>
             </div>
@@ -360,12 +360,15 @@ export const CallProvider = ({ children }: { children: ReactNode }) => {
 
           {/* Calling outgoing invitation screen */}
           {callState === 'calling' && callerInfo && (
-            <div className="w-full max-w-sm bg-zinc-900/90 border border-zinc-800 rounded-3xl p-6 shadow-2xl text-center space-y-5">
-              <img
-                src={callerInfo.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${callerInfo.name}`}
-                alt=""
-                className="w-20 h-20 rounded-full mx-auto object-cover border-2 border-emerald-500 shadow-lg shadow-emerald-500/10 animate-bounce"
-              />
+            <div className="w-full max-w-sm glass-panel rounded-3xl p-6 shadow-2xl text-center space-y-5">
+              <div className="relative flex items-center justify-center w-24 h-24 mx-auto mb-2">
+                <span className="absolute inset-0 rounded-full bg-accent/10 border border-accent/20 animate-ping" />
+                <img
+                  src={callerInfo.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${callerInfo.name}`}
+                  alt=""
+                  className="w-20 h-20 rounded-full object-cover border-2 border-accent shadow-lg shadow-accent/15 relative z-10"
+                />
+              </div>
               <div>
                 <h3 className="text-lg font-bold text-white truncate">{callerInfo.name}</h3>
                 <p className="text-xs text-neutral-400 mt-1 uppercase tracking-wider font-semibold">
@@ -404,7 +407,7 @@ export const CallProvider = ({ children }: { children: ReactNode }) => {
                     />
                     <div className="min-w-0">
                       <p className="text-xs font-bold text-white truncate">{callerInfo.name}</p>
-                      <p className="text-[9px] text-emerald-400 uppercase tracking-widest">Active Call</p>
+                      <p className="text-[9px] text-accent uppercase tracking-widest">Active Call</p>
                     </div>
                   </div>
                 )}
@@ -437,7 +440,7 @@ export const CallProvider = ({ children }: { children: ReactNode }) => {
               </div>
             ) : (
               /* Full Screen Calling Dialog Overlay UI */
-              <div className="w-full max-w-2xl h-[70vh] bg-zinc-900/90 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between relative">
+              <div className="w-full max-w-2xl h-[70vh] glass-panel rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between relative">
                 
                 {/* Header row */}
                 <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-auto">
@@ -449,7 +452,7 @@ export const CallProvider = ({ children }: { children: ReactNode }) => {
                     />
                     <div className="min-w-0">
                       <p className="text-xs font-bold text-white truncate leading-none">{callerInfo.name}</p>
-                      <p className="text-[8px] text-emerald-400 mt-1 uppercase tracking-widest font-semibold">Secure connection</p>
+                      <p className="text-[8px] text-accent mt-1 uppercase tracking-widest font-semibold">Secure connection</p>
                     </div>
                   </div>
 
@@ -474,15 +477,18 @@ export const CallProvider = ({ children }: { children: ReactNode }) => {
                   ) : (
                     /* Audio pulsing display avatar */
                     <div className="flex flex-col items-center gap-4">
-                      <div className="relative">
-                        <span className="absolute inset-0 rounded-full bg-emerald-500/10 border border-emerald-500/20 animate-ping" />
+                      <div className="relative flex items-center justify-center w-40 h-40">
+                        {/* Concentric soundwaves breathing */}
+                        <div className="absolute inset-0 rounded-full bg-accent/5 border border-accent/15 animate-ping animate-duration-3000" style={{ animationDuration: '3.5s' }} />
+                        <div className="absolute w-32 h-32 rounded-full bg-accent/10 border border-accent/20 animate-ping animate-duration-2000" style={{ animationDuration: '2.5s' }} />
+                        <div className="absolute w-28 h-28 rounded-full bg-accent/15 border border-accent/25 animate-pulse" />
                         <img
                           src={callerInfo.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${callerInfo.name}`}
                           alt=""
-                          className="w-28 h-28 rounded-full object-cover border-2 border-emerald-500 shadow-2xl relative z-10"
+                          className="w-24 h-24 rounded-full object-cover border-2 border-accent shadow-2xl relative z-10"
                         />
                       </div>
-                      <p className="text-sm font-semibold text-neutral-300">Voice call active</p>
+                      <p className="text-xs font-bold text-accent uppercase tracking-widest text-center mt-2">Voice call active</p>
                     </div>
                   )}
 

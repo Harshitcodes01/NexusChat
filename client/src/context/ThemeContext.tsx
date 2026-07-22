@@ -11,20 +11,28 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = localStorage.getItem('nexuschat_theme') as Theme;
+    return saved === 'light' ? 'light' : 'dark';
+  });
 
   useEffect(() => {
-    localStorage.setItem('nexuschat_theme', 'dark');
-    document.documentElement.classList.add('dark');
-    document.documentElement.classList.remove('light');
-  }, []);
+    localStorage.setItem('nexuschat_theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   const toggleTheme = () => {
-    // Theme is locked to dark mode
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: true }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: theme === 'dark' }}>
       {children}
     </ThemeContext.Provider>
   );
