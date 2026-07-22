@@ -4,6 +4,7 @@ import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { authService } from '../services/authService';
+import ParticleNetwork from '../components/ParticleNetwork';
 import { MessageCircle, Lock, Eye, EyeOff } from 'lucide-react';
 
 interface ResetForm {
@@ -47,8 +48,16 @@ const ResetPasswordPage = () => {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 flex items-center justify-center p-4">
-        <div className="bg-zinc-900/50 backdrop-blur-xl rounded-2xl border border-zinc-800 p-8 shadow-2xl text-center max-w-md">
+      <div className="min-h-screen bg-[#07070a] flex items-center justify-center p-4 relative overflow-hidden text-neutral-100 animate-theme-fade">
+        <div 
+          className="absolute inset-0 opacity-40 pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0)`,
+            backgroundSize: '24px 24px',
+          }}
+        />
+        <ParticleNetwork />
+        <div className="bg-zinc-900/50 backdrop-blur-xl rounded-2xl border border-zinc-800 p-8 shadow-2xl text-center max-w-md relative z-10">
           <h2 className="text-xl font-semibold text-white mb-4">Invalid Reset Link</h2>
           <p className="text-neutral-400 mb-6">No reset token was found. Please request a new password reset link.</p>
           <Link
@@ -63,12 +72,53 @@ const ResetPasswordPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#07070a] flex items-center justify-center p-4 relative overflow-hidden text-neutral-100 animate-theme-fade">
+      
+      {/* Mesh Grid Pattern Overlay */}
+      <div 
+        className="absolute inset-0 opacity-40 pointer-events-none"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0)`,
+          backgroundSize: '24px 24px',
+        }}
+      />
+
+      {/* Particle Network Canvas */}
+      <ParticleNetwork />
+
+      {/* Floating Orbital Glow Shapes */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          animate={{
+            x: [0, 80, 0],
+            y: [0, -60, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -top-20 -right-20 w-[450px] h-[450px] bg-emerald-500/10 rounded-full blur-[130px]"
+        />
+        <motion.div
+          animate={{
+            x: [0, -100, 0],
+            y: [0, 80, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -bottom-20 -left-20 w-[450px] h-[450px] bg-emerald-600/5 rounded-full blur-[130px]"
+        />
+      </div>
+
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-md relative z-10 animate-float"
       >
         <div className="text-center mb-8">
           <motion.div
